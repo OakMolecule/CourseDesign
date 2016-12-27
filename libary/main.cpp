@@ -1,4 +1,5 @@
 #include "Book.h"
+#include "Student.h"
 #include <iostream>
 #include <string>
 #include <iomanip>
@@ -6,10 +7,13 @@
 using namespace std;
 
 #define CHOISE_STAR 'A'
-#define MENU_NUM 'D'
+#define MENU_NUM 'E'
+#define EXITLETTER 'E'
+
 
 char choice(char a, char b);
 void newBook();
+void newStudent();
 
 int main()
 {
@@ -29,14 +33,19 @@ int main()
 		system("cls");
 		cout << std::left << setw(20) << "A.添加图书";
 		cout << std::left << setw(20) << "B.查看图书";
-		cout << std::left << setw(20) << "C.录入学生信息" << endl;
-		cout << std::left << setw(20) << "D.退出" << endl;
+		cout << std::left << setw(20) << "C.建立新同学" << endl;
+		cout << std::left << setw(20) << "D.查看同学信息";
+		cout << std::left << setw(20) << "E.退出" << endl;
 		menu_choise = choice(CHOISE_STAR, MENU_NUM);
 		switch (menu_choise)
 		{
 		case 'A': newBook();
 			break;
 		case 'B': loadBook();
+			break;
+		case 'C': newStudent();
+			break;
+		case 'D': loadStudent();
 			break;
 		default:
 			break;
@@ -89,4 +98,18 @@ void newBook()
 	Book * a = new Book(title, isbn, press);
 	a->~Book();
 	delete a;
+}
+
+void newStudent()
+{
+	string name;
+	string num;
+	string passwd;
+	cout << "请输入学生学号：";
+	cin >> num;
+	cout << "请输入学生姓名：";
+	cin >> name;
+	cout << "请输入借书密码：";
+	cin >> passwd;
+	Student * a = new Student(name, num, passwd);
 }

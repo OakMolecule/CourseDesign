@@ -59,8 +59,10 @@ void Book::infoBook()
 
 int loadBook()
 {
-	Book* a = new Book;
+	Book* a;
 	Book* b;
+	Book* temp;
+	int i = 1;
 	ifstream loadFile(BOOKFILE, ios_base::binary);
 	if (!loadFile.is_open())
 	{
@@ -71,11 +73,25 @@ int loadBook()
 	cout << std::left << setw(20) << "书名" << setw(20) << "INSB" << setw(20) << "出版社" << endl;
 	while (!loadFile.eof())
 	{
-		/*b = a;
-		if (a != nullptr)*/
+		if (i == 1)
+		{
+			a = new Book;
 			loadFile.read((char*)a, sizeof(Book));
-		a->infoBook();
+			a->Next = NULL;
+			temp = a;
+			a->infoBook();
+		}
+		else {
+			b = new Book();
+			loadFile.read((char*)b, sizeof(Book));
+			b->Next = NULL;
+			temp->Next = b;
+			temp = b;
+			b->infoBook();
+		}
+		i++;
 	}
+	cout << Book::count;
 	/*
 	loadFile.read((char*)this, sizeof(Book));
 	cout << title << endl;
@@ -85,7 +101,14 @@ int loadBook()
 	loadFile.close();
 	getchar();
 	getchar();
-	a->~Book();
-	delete a;
+	while (a->Next == NULL)
+	{
+		temp = a->Next;
+		a->~Book();
+		delete a;
+		a = temp;
+	}
+	/*a->~Book();
+	delete a;*/
 	return 0;
 }
